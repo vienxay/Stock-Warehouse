@@ -205,14 +205,14 @@
             <div style="padding:16px 20px;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
 
                 <div style="grid-column:span 2">
-                    <label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:4px;">ຊື່ເຕັມ <span style="color:red">*</span></label>
+                    <label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:4px;">ຊື່ເຕັມ <span style="color:red;">*</span></label>
                     <input type="text" name="name" required placeholder="ຊື່ ແລະ ນາມສະກຸນ"
                         value="{{ old('_modal') === 'add' ? old('name') : '' }}"
                         style="width:100%;border:1px solid {{ $errors->has('name') && old('_modal')==='add' ? '#f87171' : '#d1d5db' }};border-radius:6px;padding:7px 10px;font-size:13px;outline:none;box-sizing:border-box;"/>
                 </div>
 
                 <div>
-                    <label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:4px;">Username <span style="color:red">*</span></label>
+                    <label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:4px;">Username <span style="color:red;">*</span></label>
                     <input type="text" name="username" required placeholder="username"
                         value="{{ old('_modal') === 'add' ? old('username') : '' }}"
                         style="width:100%;border:1px solid {{ $errors->has('username') && old('_modal')==='add' ? '#f87171' : '#d1d5db' }};border-radius:6px;padding:7px 10px;font-size:13px;font-family:monospace;outline:none;box-sizing:border-box;"/>

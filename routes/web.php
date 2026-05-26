@@ -56,17 +56,26 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/read-all', function () {
         /** @var \App\Models\User $u */ $u = Auth::user();
         $u->unreadNotifications->markAsRead();
+        cache()->forget("notif_count_{$u->id}"); // clear cache
         return back();
     })->name('notifications.read-all');
+
     Route::post('/notifications/{id}/read', function ($id) {
         /** @var \App\Models\User $u */ $u = Auth::user();
         $n = $u->notifications()->find($id);
-        if ($n) $n->markAsRead();
+        if ($n) {
+            $n->markAsRead();
+            cache()->forget("notif_count_{$u->id}"); // clear cache
+        }
         return response()->json(['ok' => true]);
     })->name('notifications.read');
+
     Route::get('/notifications/unread-count', function () {
         /** @var \App\Models\User $u */ $u = Auth::user();
-        return response()->json(['count' => $u->unreadNotifications()->count()]);
+        $count = cache()->remember("notif_count_{$u->id}", 30, function () use ($u) {
+            return $u->unreadNotifications()->count();
+        });
+        return response()->json(['count' => $count]);
     })->name('notifications.count');
 
     // Products
