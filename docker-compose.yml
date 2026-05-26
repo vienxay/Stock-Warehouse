@@ -1,5 +1,14 @@
 version: '3.8'
 
+# ── ຕ້ອງສ້າງ .env ໃນ root ໂຄງການ ────────────────────────────────────────────
+# APP_KEY=base64:...          (php artisan key:generate --show)
+# DB_DATABASE=stockk
+# DB_USERNAME=stockk_user
+# DB_PASSWORD=your_strong_password
+# DB_ROOT_PASSWORD=your_strong_root_password
+# APP_URL=http://localhost:8099
+# ─────────────────────────────────────────────────────────────────────────────
+
 services:
   # ----- Laravel App -----
   app:
@@ -8,21 +17,21 @@ services:
       dockerfile: Dockerfile
     container_name: stockk_app
     ports:
-      - "8099:80"
+      - "${APP_PORT:-8099}:80"
     environment:
-      APP_NAME: "ລະບົບສາງ"
-      APP_ENV: local
-      APP_DEBUG: "true"
-      APP_KEY: ${APP_KEY:-}
-      APP_URL: http://localhost:8099
-      APP_LOCALE: lo
+      APP_NAME: "${APP_NAME:-ລະບົບສາງ}"
+      APP_ENV: "${APP_ENV:-local}"
+      APP_DEBUG: "${APP_DEBUG:-true}"
+      APP_KEY: "${APP_KEY}"
+      APP_URL: "${APP_URL:-http://localhost:8099}"
+      APP_LOCALE: "${APP_LOCALE:-lo}"
 
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_DATABASE: stockk
-      DB_USERNAME: stockk_user
-      DB_PASSWORD: secret
+      DB_DATABASE: "${DB_DATABASE:-stockk}"
+      DB_USERNAME: "${DB_USERNAME:-stockk_user}"
+      DB_PASSWORD: "${DB_PASSWORD}"
 
       SESSION_DRIVER: file
       CACHE_STORE: file
@@ -30,9 +39,8 @@ services:
       FILESYSTEM_DISK: public
 
       LOG_CHANNEL: stderr
-      LOG_LEVEL: debug
+      LOG_LEVEL: "${LOG_LEVEL:-debug}"
     volumes:
-      # Persist uploaded files (avatars, product images)
       - storage_uploads:/var/www/html/storage/app/public
     depends_on:
       db:
@@ -44,16 +52,16 @@ services:
     image: mysql:8.0
     container_name: stockk_db
     environment:
-      MYSQL_DATABASE: stockk
-      MYSQL_USER: stockk_user
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: rootsecret
+      MYSQL_DATABASE: "${DB_DATABASE:-stockk}"
+      MYSQL_USER: "${DB_USERNAME:-stockk_user}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
     ports:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootsecret"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
       interval: 5s
       timeout: 5s
       retries: 20
