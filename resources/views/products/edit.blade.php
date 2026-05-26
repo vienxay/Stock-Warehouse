@@ -107,7 +107,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1.5">ຮູບພາບສິນຄ້າ</label>
             <div class="flex items-start gap-4">
                 <div id="imgPreviewBox"
-                     class="w-28 h-28 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center bg-gray-50 overflow-hidden flex-shrink-0">
+                     class="w-28 h-28 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center bg-gray-50 overflow-hidden shrink-0">
                     @if($product->primaryImage)
                         <img id="imgPreview" src="{{ Storage::disk('public')->url($product->primaryImage->image_path) }}" alt=""
                              class="w-full h-full object-cover"/>
