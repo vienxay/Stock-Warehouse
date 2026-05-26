@@ -24,9 +24,14 @@
 
     <div class="flex h-screen overflow-hidden">
 
+        {{-- Mobile sidebar overlay --}}
+        <div id="sidebarOverlay"
+            class="hidden fixed inset-0 bg-black/50 z-20 lg:hidden"
+            onclick="closeSidebar()"></div>
+
         {{-- ========== SIDEBAR ========== --}}
         <aside id="sidebar"
-            class="w-64 bg-linear-to-b from-blue-900 to-blue-800 text-white flex flex-col shrink-0 transition-all duration-300 z-30">
+            class="fixed inset-y-0 left-0 lg:static w-64 bg-linear-to-b from-blue-900 to-blue-800 text-white flex flex-col shrink-0 transition-transform duration-300 z-30 -translate-x-full lg:translate-x-0">
 
             {{-- Logo --}}
             @php
@@ -34,6 +39,12 @@
                 $companyName = \App\Models\Setting::get('company_name', 'ລະບົບສາງ');
             @endphp
             <div class="flex items-center gap-3 px-5 py-5 border-b border-blue-700">
+                <button onclick="closeSidebar()"
+                    class="lg:hidden p-1 text-blue-300 hover:text-white rounded-lg transition shrink-0 mr-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
                 <div class="w-9 h-9 bg-white rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
                     @if($companyLogo)
                         <img src="{{ Storage::disk('public')->url($companyLogo) }}"
@@ -141,7 +152,7 @@
             <header class="bg-white shadow-sm z-20 shrink-0">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center gap-4">
-                        <button onclick="toggleSidebar()" class="text-gray-500 hover:text-gray-700 lg:hidden">
+                        <button onclick="openSidebar()" class="text-gray-500 hover:text-gray-700 lg:hidden">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                             </svg>
@@ -186,7 +197,7 @@
 
                             {{-- Dropdown --}}
                             <div id="notifDropdown"
-                                class="hidden absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+                                class="hidden absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden">
 
                                 <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                                     <span class="text-sm font-semibold text-gray-800">{{ __('nav.notifications') }}</span>
@@ -307,7 +318,7 @@
             </header>
 
             {{-- Page Content --}}
-            <main class="flex-1 overflow-y-auto p-6">
+            <main class="flex-1 overflow-y-auto p-4 md:p-6">
                 @if(session('success'))
                     <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
                         <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -343,8 +354,19 @@
 
     <script>
         // Sidebar toggle
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        function openSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+            overlay.classList.remove('hidden');
+        }
+        function closeSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.add('-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+            overlay.classList.add('hidden');
         }
 
         // Notification dropdown

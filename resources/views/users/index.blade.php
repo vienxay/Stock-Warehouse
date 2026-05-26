@@ -6,7 +6,7 @@
 @section('content')
 
 {{-- Header --}}
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between mb-6 gap-3">
     <div>
         <h2 class="text-xl font-bold text-gray-800">ຜູ້ໃຊ້ງານທັງໝົດ</h2>
         <p class="text-sm text-gray-400 mt-0.5">ຈັດການ ເພີ່ມ ແກ້ໄຂ ລຶບຜູ້ໃຊ້ງານ</p>

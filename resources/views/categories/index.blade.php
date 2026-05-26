@@ -3,7 +3,7 @@
 @section('page_title','ໝວດໝູ່ສິນຄ້າ')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between mb-6 gap-3">
     <h2 class="text-xl font-bold text-gray-800">ໝວດໝູ່ທັງໝົດ</h2>
     <button id="openAddModal"
         class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition">

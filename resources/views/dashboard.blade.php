@@ -75,7 +75,7 @@
 </div>
 
 {{-- Second row stats --}}
-<div class="grid grid-cols-3 gap-4 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
     <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-5 text-white shadow-sm">
         <div class="flex items-center gap-3 mb-2">

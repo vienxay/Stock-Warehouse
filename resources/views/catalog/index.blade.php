@@ -13,7 +13,7 @@
 @endif
 
 {{-- Tabs --}}
-<div class="flex gap-1 mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-1.5 w-fit">
+<div class="flex flex-wrap gap-1 mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-1.5">
     @foreach([
         ['tab' => 'units',     'label' => 'ໜ່ວຍນັບ',   'count' => $units->count()],
         ['tab' => 'brands',    'label' => 'ຍີ່ຫໍ້',      'count' => $brands->count()],

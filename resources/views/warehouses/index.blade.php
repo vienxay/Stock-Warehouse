@@ -3,7 +3,7 @@
 @section('page_title','ຈັດການສາງ')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between mb-6 gap-3">
     <h2 class="text-xl font-bold text-gray-800">ສາງທັງໝົດ</h2>
     <button onclick="document.getElementById('addModal').style.display='flex'"
         class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition">
@@ -15,6 +15,7 @@
 </div>
 
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="overflow-x-auto">
     <table class="w-full text-sm">
         <thead class="bg-gray-50 border-b border-gray-200">
             <tr>
@@ -64,6 +65,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
     @if($warehouses->hasPages())
     <div class="px-5 py-4 border-t">{{ $warehouses->links() }}</div>
     @endif

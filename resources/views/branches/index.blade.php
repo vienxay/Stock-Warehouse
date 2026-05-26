@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- Header --}}
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-wrap items-center justify-between mb-6 gap-3">
     <div>
         <h2 class="text-xl font-bold text-gray-800">ສາຂາທັງໝົດ</h2>
         <p class="text-sm text-gray-500 mt-0.5">ຈັດການສາຂາ ແລະ ຂໍ້ມູນຕິດຕໍ່</p>
