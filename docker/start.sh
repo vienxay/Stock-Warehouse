@@ -12,6 +12,31 @@ if [ "$APP_PORT" != "80" ]; then
         /etc/apache2/sites-available/000-default.conf
 fi
 
+# Write all env vars explicitly to .env so Laravel config:cache reads them correctly
+cat > .env << EOF
+APP_NAME="${APP_NAME:-Stock Management}"
+APP_ENV=${APP_ENV:-production}
+APP_KEY=${APP_KEY}
+APP_DEBUG=${APP_DEBUG:-false}
+APP_URL=${APP_URL:-http://localhost}
+APP_LOCALE=${APP_LOCALE:-lo}
+
+DB_CONNECTION=${DB_CONNECTION:-mysql}
+DB_HOST=${DB_HOST}
+DB_PORT=${DB_PORT:-3306}
+DB_DATABASE=${DB_DATABASE}
+DB_USERNAME=${DB_USERNAME}
+DB_PASSWORD=${DB_PASSWORD}
+
+SESSION_DRIVER=${SESSION_DRIVER:-file}
+CACHE_STORE=${CACHE_STORE:-file}
+QUEUE_CONNECTION=${QUEUE_CONNECTION:-sync}
+FILESYSTEM_DISK=${FILESYSTEM_DISK:-public}
+
+LOG_CHANNEL=${LOG_CHANNEL:-stderr}
+LOG_LEVEL=${LOG_LEVEL:-error}
+EOF
+
 # Ensure required storage directories exist
 mkdir -p storage/framework/sessions \
          storage/framework/views \
@@ -21,9 +46,6 @@ mkdir -p storage/framework/sessions \
 
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
-
-# Artisan requires .env to exist even when all values come from environment variables
-[ -f .env ] || touch .env
 
 # Create storage symlink
 php artisan storage:link --force 2>/dev/null || true
