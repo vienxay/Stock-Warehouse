@@ -55,6 +55,11 @@ echo "Running migrations..."
 php artisan migrate --force --no-interaction || \
     php artisan migrate:fresh --force --no-interaction
 
+# Seed default users (firstOrCreate = safe to run multiple times)
+echo "Seeding default users..."
+php artisan db:seed --class=RolesAndPermissionsSeeder --force --no-interaction
+php artisan db:seed --class=AdminUserSeeder --force --no-interaction
+
 # Cache config/routes/views for production
 php artisan config:cache
 php artisan route:cache
