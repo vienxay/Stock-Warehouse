@@ -12,6 +12,16 @@ if [ "$APP_PORT" != "80" ]; then
         /etc/apache2/sites-available/000-default.conf
 fi
 
+# Ensure required storage directories exist
+mkdir -p storage/framework/sessions \
+         storage/framework/views \
+         storage/framework/cache/data \
+         storage/logs \
+         storage/app/public
+
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
 # Artisan requires .env to exist even when all values come from environment variables
 [ -f .env ] || touch .env
 
