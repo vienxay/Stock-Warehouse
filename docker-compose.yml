@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # ----- Laravel App -----
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stockk_app
+    ports:
+      - "8099:80"
+    environment:
+      APP_NAME: "ລະບົບສາງ"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: ${APP_KEY:-}
+      APP_URL: http://localhost:8099
+      APP_LOCALE: lo
+
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: stockk
+      DB_USERNAME: stockk_user
+      DB_PASSWORD: secret
+
+      SESSION_DRIVER: file
+      CACHE_STORE: file
+      QUEUE_CONNECTION: sync
+      FILESYSTEM_DISK: public
+
+      LOG_CHANNEL: stderr
+      LOG_LEVEL: debug
+    volumes:
+      # Persist uploaded files (avatars, product images)
+      - storage_uploads:/var/www/html/storage/app/public
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ----- MySQL -----
+  db:
+    image: mysql:8.0
+    container_name: stockk_db
+    environment:
+      MYSQL_DATABASE: stockk
+      MYSQL_USER: stockk_user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootsecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  storage_uploads:

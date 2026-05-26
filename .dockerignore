@@ -1,0 +1,42 @@
+# Dependencies (installed in container)
+vendor/
+node_modules/
+
+# Built assets (built in container)
+public/build/
+public/hot
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Storage runtime files
+storage/app/backups/
+storage/logs/
+storage/framework/cache/data/
+storage/framework/sessions/
+storage/framework/views/
+
+# Docker files (not needed inside image)
+docker-compose*.yml
+.dockerignore
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Test & dev
+tests/
+phpunit.xml
+.phpunit.cache/
+README.md
+CLAUDE.md

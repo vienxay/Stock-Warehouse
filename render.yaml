@@ -1,0 +1,77 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# ຫລາຍ: ສ້າງ MySQL database ກ່ອນໃນ Render Dashboard
+#       ແລ້ວ copy DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD ໃສ່ env vars ນີ້
+
+services:
+  - type: web
+    name: stockk
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /login
+    plan: free
+
+    envVars:
+      - key: APP_NAME
+        value: "Stock Management"
+
+      - key: APP_ENV
+        value: production
+
+      - key: APP_DEBUG
+        value: false
+
+      # Render will auto-generate this value
+      - key: APP_KEY
+        generateValue: true
+
+      # Set this AFTER first deploy (copy your Render URL here)
+      - key: APP_URL
+        sync: false
+
+      - key: APP_LOCALE
+        value: lo
+
+      # --- Database (set manually from your MySQL provider) ---
+      - key: DB_CONNECTION
+        value: mysql
+
+      - key: DB_HOST
+        sync: false   # e.g. from PlanetScale or FreeSQLDatabase
+
+      - key: DB_PORT
+        value: 3306
+
+      - key: DB_DATABASE
+        sync: false
+
+      - key: DB_USERNAME
+        sync: false
+
+      - key: DB_PASSWORD
+        sync: false
+
+      # --- Session / Cache (file = no extra service needed) ---
+      - key: SESSION_DRIVER
+        value: file
+
+      - key: CACHE_STORE
+        value: file
+
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      - key: FILESYSTEM_DISK
+        value: public
+
+      - key: LOG_CHANNEL
+        value: stderr
+
+      - key: LOG_LEVEL
+        value: error
+
+    # Persistent disk for uploaded files (avatars, product images)
+    # NOTE: disk requires a paid plan; remove this block for free tier
+    disk:
+      name: storage
+      mountPath: /var/www/html/storage/app/public
+      sizeGB: 1
