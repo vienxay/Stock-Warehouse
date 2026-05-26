@@ -6,7 +6,7 @@
     Options +FollowSymLinks
 
     RewriteEngine On
-    RewriteBase /stockk/
+    RewriteBase /
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
