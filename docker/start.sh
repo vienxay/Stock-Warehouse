@@ -12,20 +12,17 @@ if [ "$APP_PORT" != "80" ]; then
         /etc/apache2/sites-available/000-default.conf
 fi
 
-# Generate app key if not provided
-if [ -z "$APP_KEY" ]; then
-    echo "Generating APP_KEY..."
-    php artisan key:generate --force --no-interaction
-fi
+# Artisan requires .env to exist even when all values come from environment variables
+[ -f .env ] || touch .env
 
-# Create storage symlink (ignore if already exists)
+# Create storage symlink
 php artisan storage:link --force 2>/dev/null || true
 
 # Run migrations
 echo "Running migrations..."
 php artisan migrate --force --no-interaction
 
-# Cache for production performance
+# Cache config/routes/views for production
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
