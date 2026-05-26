@@ -50,9 +50,10 @@ chmod -R 775 storage bootstrap/cache
 # Create storage symlink
 php artisan storage:link --force 2>/dev/null || true
 
-# Run migrations
+# Run migrations (fresh if tables exist but not tracked, otherwise normal)
 echo "Running migrations..."
-php artisan migrate --force --no-interaction
+php artisan migrate --force --no-interaction || \
+    php artisan migrate:fresh --force --no-interaction
 
 # Cache config/routes/views for production
 php artisan config:cache
