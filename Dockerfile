@@ -84,9 +84,10 @@ RUN composer dump-autoload --optimize --no-dev
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Startup script
+# Startup script (sed strips Windows CRLF so bash runs correctly on Linux)
 COPY docker/start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+RUN sed -i 's/\r$//' /usr/local/bin/start.sh \
+    && chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
 
