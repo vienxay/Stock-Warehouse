@@ -96,7 +96,7 @@
                             </svg>
                         </button>
                         <form method="POST" action="{{ route('branches.destroy', $branch) }}" class="inline"
-                            onsubmit="return confirm('ລຶບສາຂາ {{ $branch->name }}?')">
+                            data-confirm="ລຶບສາຂາ {{ $branch->name }}?">
                             @csrf @method('DELETE')
                             <button type="submit" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg" title="ລຶບ">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

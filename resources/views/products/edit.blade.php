@@ -138,7 +138,7 @@
                     @error('image')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     @if($product->primaryImage)
                     <button type="button" class="mt-2 text-xs text-red-500 hover:text-red-700 underline"
-                        onclick="if(confirm('ລົບຮູບນີ້?')) document.getElementById('deleteImageForm').submit()">
+                        onclick="appConfirm('ລົບຮູບນີ້?', function(){ document.getElementById('deleteImageForm').submit(); })">
                         ລົບຮູບເດີມ
                     </button>
                     @endif

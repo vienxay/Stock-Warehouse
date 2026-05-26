@@ -147,7 +147,7 @@
                         </button>
                         @if($u->id !== Auth::id())
                         <form method="POST" action="{{ route('users.destroy', $u) }}"
-                            onsubmit="return confirm('ລຶບຜູ້ໃຊ້ {{ addslashes($u->name) }}?')">
+                            data-confirm="ລຶບຜູ້ໃຊ້ {{ addslashes($u->name) }}?">
                             @csrf @method('DELETE')
                             <button type="submit"
                                 class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition" title="ລຶບ">

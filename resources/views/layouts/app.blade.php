@@ -419,6 +419,114 @@
         _updateBadge(_notifCount);
         setInterval(_pollNotifications, 30000);
     </script>
+    {{-- ===== Global Confirm Modal ===== --}}
+    <div id="appConfirmModal"
+         class="fixed inset-0 z-[999] flex items-center justify-center p-4"
+         style="display:none!important">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeAppConfirm()"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-auto overflow-hidden animate-[fadeInUp_0.2s_ease]">
+            <div class="p-6 text-center">
+                <div id="appConfirmIcon"
+                     class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-red-100">
+                    <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                    </svg>
+                </div>
+                <h3 id="appConfirmTitle" class="text-lg font-bold text-gray-800 mb-2"></h3>
+                <p id="appConfirmMsg" class="text-gray-500 text-sm leading-relaxed"></p>
+            </div>
+            <div class="flex border-t border-gray-100">
+                <button onclick="closeAppConfirm()"
+                        class="flex-1 py-3.5 text-gray-600 font-medium text-sm hover:bg-gray-50 transition border-r border-gray-100">
+                    ຍົກເລີກ
+                </button>
+                <button id="appConfirmOkBtn"
+                        class="flex-1 py-3.5 font-semibold text-sm transition">
+                    ຢືນຢັນ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        var _cb = null;
+
+        window.appConfirm = function (msg, callback, opts) {
+            opts = opts || {};
+            var type  = opts.type  || 'danger';
+            var title = opts.title || (type === 'danger' ? 'ຢືນຢັນການລຶບ' : 'ຢືນຢັນ');
+            var icon  = document.getElementById('appConfirmIcon');
+            var okBtn = document.getElementById('appConfirmOkBtn');
+
+            document.getElementById('appConfirmTitle').textContent = title;
+            document.getElementById('appConfirmMsg').textContent   = msg;
+
+            icon.className  = 'w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 ' +
+                (type === 'danger' ? 'bg-red-100' : type === 'warning' ? 'bg-amber-100' : 'bg-blue-100');
+            icon.querySelector('svg').className.baseVal =
+                'w-7 h-7 ' + (type === 'danger' ? 'text-red-600' : type === 'warning' ? 'text-amber-600' : 'text-blue-600');
+
+            okBtn.className = 'flex-1 py-3.5 font-semibold text-sm transition text-white ' +
+                (type === 'danger' ? 'bg-red-600 hover:bg-red-700' :
+                 type === 'warning' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-blue-600 hover:bg-blue-700');
+
+            _cb = callback;
+            var modal = document.getElementById('appConfirmModal');
+            modal.style.removeProperty('display');
+            modal.style.display = 'flex';
+        };
+
+        window.closeAppConfirm = function () {
+            document.getElementById('appConfirmModal').style.display = 'none';
+            _cb = null;
+        };
+
+        document.getElementById('appConfirmOkBtn').addEventListener('click', function () {
+            var fn = _cb;
+            closeAppConfirm();
+            if (fn) fn();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeAppConfirm();
+        });
+
+        // Auto-intercept all forms with data-confirm attribute
+        document.addEventListener('submit', function (e) {
+            var form = e.target;
+            var msg  = form.getAttribute('data-confirm');
+            if (msg && !form._appConfirmed) {
+                e.preventDefault();
+                var type  = form.getAttribute('data-confirm-type')  || 'danger';
+                var title = form.getAttribute('data-confirm-title') || null;
+                appConfirm(msg, function () {
+                    form._appConfirmed = true;
+                    form.submit();
+                }, { type: type, title: title });
+            }
+        });
+
+        // showAlert replaces native alert()
+        window.showAlert = function (msg, type) {
+            type = type || 'warning';
+            var icon   = document.getElementById('appConfirmIcon');
+            var modal  = document.getElementById('appConfirmModal');
+            var okBtn  = document.getElementById('appConfirmOkBtn');
+            document.getElementById('appConfirmTitle').textContent =
+                type === 'warning' ? 'ແຈ້ງເຕືອນ' : 'ຂໍ້ຜິດພາດ';
+            document.getElementById('appConfirmMsg').textContent = msg;
+            icon.className  = 'w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-amber-100';
+            icon.querySelector('svg').className.baseVal = 'w-7 h-7 text-amber-600';
+            okBtn.className = 'flex-1 py-3.5 font-semibold text-sm transition text-white bg-amber-500 hover:bg-amber-600';
+            okBtn.textContent = 'ຕົກລົງ';
+            modal.style.display = 'flex';
+            _cb = function () { okBtn.textContent = 'ຢືນຢັນ'; };
+        };
+    })();
+    </script>
+
     @stack('scripts')
 
     {{-- ===== JS DOM Translator (non-Lao locales only) ===== --}}

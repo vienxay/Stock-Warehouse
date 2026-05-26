@@ -74,7 +74,7 @@
                             </a>
                             @if($req->isPending())
                             <form method="POST" action="{{ route('requests.destroy', $req) }}"
-                                onsubmit="return confirm('ຍົກເລີກຄຳຮ້ອງ?')">
+                                data-confirm="ຍົກເລີກຄຳຮ້ອງ?">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

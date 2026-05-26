@@ -121,7 +121,7 @@
                         </button>
                         {{-- Cancel --}}
                         <form method="POST" action="{{ route('transfers.cancel', $t) }}" class="inline"
-                            onsubmit="return confirm('ຍົກເລີກການໂອນ {{ $t->transfer_no }}?\nສາງຈະຖືກຄືນໄປ {{ $t->fromWarehouse?->name }}')">
+                            data-confirm="ຍົກເລີກການໂອນ {{ $t->transfer_no }}?\nສາງຈະຖືກຄືນໄປ {{ $t->fromWarehouse?->name }}">
                             @csrf
                             <button type="submit" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg" title="ຍົກເລີກ">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,7 +325,7 @@ document.getElementById('createForm').addEventListener('submit', function(e) {
     const to   = document.getElementById('toWh').value;
     if (from && to && from === to) {
         e.preventDefault();
-        alert('ຕົ້ນທາງ ແລະ ປາຍທາງ ຕ້ອງຕ່າງກັນ');
+        showAlert('ຕົ້ນທາງ ແລະ ປາຍທາງ ຕ້ອງຕ່າງກັນ', 'warning');
     }
 });
 

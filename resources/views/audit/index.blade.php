@@ -164,7 +164,7 @@
                         </td>
                         <td class="px-4 py-3 text-center">
                             <form method="POST" action="{{ route('audit.destroy', $log) }}"
-                                onsubmit="return confirm('ລຶບ Log ນີ້?')">
+                                data-confirm="ລຶບ Log ນີ້?">
                                 @csrf @method('DELETE')
                                 <button type="submit"
                                     class="text-red-400 hover:text-red-600 transition p-1 rounded">

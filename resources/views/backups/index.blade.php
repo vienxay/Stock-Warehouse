@@ -44,7 +44,7 @@
     <div class="flex flex-wrap gap-3">
         {{-- SQL --}}
         <form method="POST" action="{{ route('backups.store') }}"
-              onsubmit="return confirm('ສ້າງ SQL Backup ໃໝ່?')">
+              data-confirm="ສ້າງ SQL Backup ໃໝ່?">
             @csrf
             <input type="hidden" name="format" value="sql"/>
             <button type="submit"
@@ -59,7 +59,7 @@
 
         {{-- Excel --}}
         <form method="POST" action="{{ route('backups.store') }}"
-              onsubmit="return confirm('ສ້າງ Excel Backup ໃໝ່?')">
+              data-confirm="ສ້າງ Excel Backup ໃໝ່?">
             @csrf
             <input type="hidden" name="format" value="excel"/>
             <button type="submit"
@@ -157,7 +157,7 @@
                                 </svg>
                             </a>
                             <form method="POST" action="{{ route('backups.destroy', $backup) }}"
-                                onsubmit="return confirm('ລຶບ {{ $backup->filename }}?')">
+                                data-confirm="ລຶບ {{ $backup->filename }}?">
                                 @csrf @method('DELETE')
                                 <button type="submit"
                                     class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition" title="ລຶບ">

@@ -50,7 +50,7 @@
                         </button>
                         @if($cat->products_count == 0)
                         <form method="POST" action="{{ route('categories.destroy', $cat) }}"
-                            onsubmit="return confirm('ລຶບໝວດໝູ່ {{ addslashes($cat->name) }}?')">
+                            data-confirm="ລຶບໝວດໝູ່ {{ addslashes($cat->name) }}?">
                             @csrf @method('DELETE')
                             <button type="submit" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -74,7 +74,7 @@
                         </button>
                         @if($u->products_count == 0)
                         <form method="POST" action="{{ route('catalog.units.destroy', $u) }}"
-                            onsubmit="return confirm('ລຶບໜ່ວຍ {{ $u->name }}?')">
+                            data-confirm="ລຶບໜ່ວຍ {{ $u->name }}?">
                             @csrf @method('DELETE')
                             <button type="submit" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@
                         </button>
                         @if($b->products_count == 0)
                         <form method="POST" action="{{ route('catalog.brands.destroy', $b) }}"
-                            onsubmit="return confirm('ລຶບຍີ່ຫໍ້ {{ $b->name }}?')">
+                            data-confirm="ລຶບຍີ່ຫໍ້ {{ $b->name }}?">
                             @csrf @method('DELETE')
                             <button type="submit" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,7 +216,7 @@
                         </button>
                         @if($s->products_count == 0)
                         <form method="POST" action="{{ route('catalog.suppliers.destroy', $s) }}"
-                            onsubmit="return confirm('ລຶບຜູ້ສະໜອງ {{ $s->name }}?')">
+                            data-confirm="ລຶບຜູ້ສະໜອງ {{ $s->name }}?">
                             @csrf @method('DELETE')
                             <button type="submit" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
