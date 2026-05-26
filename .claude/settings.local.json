@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"d:\\\\xampp\\\\php\\\\php.exe\" \"d:\\\\xampp\\\\htdocs\\\\stockk\\\\artisan\" tinker --execute=\"echo Storage::disk\\('public'\\)->url\\('products/test.png'\\);\")",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:8099/stockk/storage/products/DDomrdr6iHs0ffoJZdGt70ROiRXjGkaadjwmARLG.png\" -UseBasicParsing)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:8099/stockk/storage/products/DDomrdr6iHs0ffoJZdGt70ROiRXjGkaadjwmARLG.png\" -UseBasicParsing; Write-Output \"Status: $\\($r.StatusCode\\)\" } catch { Write-Output \"Error: $\\($_.Exception.Response.StatusCode.Value__\\) - $\\($_.Exception.Message\\)\" })"
+    ]
+  }
+}
