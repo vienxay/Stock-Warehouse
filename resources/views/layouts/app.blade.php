@@ -25,7 +25,6 @@
         @media (min-width: 1024px) {
             #sidebar {
                 transform: none !important;
-                position: static;
             }
         }
     </style>
@@ -37,7 +36,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-    <div class="flex h-screen overflow-hidden">
+    <div class="min-h-screen">
 
         {{-- Mobile sidebar overlay --}}
         <div id="sidebarOverlay"
@@ -161,7 +160,7 @@
         </aside>
 
         {{-- ========== MAIN CONTENT ========== --}}
-        <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <div class="flex flex-col min-h-screen lg:ml-64">
 
             {{-- Top Navbar --}}
             <header class="bg-white shadow-sm z-20 shrink-0">
