@@ -87,7 +87,7 @@
                 <td class="px-5 py-3.5 text-gray-400 text-xs">{{ $users->firstItem() + $i }}</td>
                 <td class="px-5 py-3.5">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0
                             {{ match($u->role) {
                                 'super_admin' => 'bg-purple-600',
                                 'admin'       => 'bg-blue-600',
@@ -284,6 +284,17 @@
         <form method="POST" id="editForm" style="display:flex;flex-direction:column;overflow:hidden;">
             @csrf @method('PUT')
             <input type="hidden" name="_modal" value="edit">
+            <input type="hidden" name="_edit_id" id="editId">
+
+            {{-- Validation errors --}}
+            @if($errors->any() && old('_modal') === 'edit')
+            <div style="padding:10px 20px;background:#fef2f2;border-bottom:1px solid #fecaca;">
+                @foreach($errors->all() as $err)
+                <p style="color:#dc2626;font-size:12px;margin:1px 0;">• {{ $err }}</p>
+                @endforeach
+            </div>
+            @endif
+
             <div style="padding:16px 20px;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
 
                 <div style="grid-column:span 2">
@@ -343,13 +354,29 @@
 </div>
 
 @push('scripts')
+<script type="application/json" id="_userPageData">
+{
+    "baseUrl":    "{{ url('/users') }}",
+    "reopen":     "{{ $errors->any() ? old('_modal','') : '' }}",
+    "editOld": {
+        "id":        "{{ old('_edit_id') }}",
+        "name":      "{{ addslashes(old('name','')) }}",
+        "username":  "{{ addslashes(old('username','')) }}",
+        "phone":     "{{ addslashes(old('phone','')) }}",
+        "email":     "{{ addslashes(old('email','')) }}",
+        "role":      "{{ old('role','') }}",
+        "branch_id": "{{ old('branch_id','') }}"
+    }
+}
+</script>
 <script>
-const userBaseUrl = "{{ url('/users') }}";
+const _pd          = JSON.parse(document.getElementById('_userPageData').textContent);
+const userBaseUrl  = _pd.baseUrl;
 
-// Auto-reopen modal on validation error
-@if($errors->any() && old('_modal') === 'add')
-document.addEventListener('DOMContentLoaded', () => openAddModal());
-@endif
+document.addEventListener('DOMContentLoaded', () => {
+    if (_pd.reopen === 'add')  openAddModal();
+    if (_pd.reopen === 'edit') openEditModal(_pd.editOld);
+});
 
 function openAddModal() {
     const el = document.getElementById('addModal');
@@ -358,7 +385,8 @@ function openAddModal() {
 }
 
 function openEditModal(u) {
-    document.getElementById('editForm').action = userBaseUrl + '/' + u.id;
+    document.getElementById('editForm').action    = userBaseUrl + '/' + u.id;
+    document.getElementById('editId').value       = u.id        || '';
     document.getElementById('editName').value     = u.name      || '';
     document.getElementById('editUsername').value = u.username  || '';
     document.getElementById('editPhone').value    = u.phone     || '';
