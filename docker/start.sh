@@ -50,10 +50,9 @@ chmod -R 775 storage bootstrap/cache
 # Create storage symlink
 php artisan storage:link --force 2>/dev/null || true
 
-# Run migrations (fresh if tables exist but not tracked, otherwise normal)
+# Run migrations safely (ไม่ใช้ migrate:fresh เพราะจะลบข้อมูลทั้งหมด!)
 echo "Running migrations..."
-php artisan migrate --force --no-interaction || \
-    php artisan migrate:fresh --force --no-interaction
+php artisan migrate --force --no-interaction
 
 # Seed default users (firstOrCreate = safe to run multiple times)
 echo "Seeding default users..."

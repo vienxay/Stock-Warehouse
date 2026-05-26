@@ -89,6 +89,7 @@ COPY docker/start.sh /usr/local/bin/start.sh
 RUN sed -i 's/\r$//' /usr/local/bin/start.sh \
     && chmod +x /usr/local/bin/start.sh
 
-EXPOSE 80
+# Render ใช้ dynamic port — ไม่ตายตัวที่ 80
+EXPOSE ${PORT:-80}
 
 CMD ["/usr/local/bin/start.sh"]
