@@ -13,6 +13,21 @@
         body { font-family: 'Noto Sans Lao', sans-serif; }
         .sidebar-link.active { background: rgba(255,255,255,0.15); }
         .sidebar-link:hover { background: rgba(255,255,255,0.1); }
+
+        /* Sidebar responsive */
+        #sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        #sidebar.sidebar-open {
+            transform: translateX(0);
+        }
+        @media (min-width: 1024px) {
+            #sidebar {
+                transform: none !important;
+                position: static;
+            }
+        }
     </style>
     @if(app()->getLocale() === 'zh')
     <style>
@@ -31,7 +46,7 @@
 
         {{-- ========== SIDEBAR ========== --}}
         <aside id="sidebar"
-            class="fixed inset-y-0 left-0 lg:static w-64 bg-linear-to-b from-blue-900 to-blue-800 text-white flex flex-col shrink-0 transition-transform duration-300 z-30 -translate-x-full lg:translate-x-0">
+            class="fixed inset-y-0 left-0 w-64 bg-linear-to-b from-blue-900 to-blue-800 text-white flex flex-col shrink-0 z-30">
 
             {{-- Logo --}}
             @php
@@ -146,7 +161,7 @@
         </aside>
 
         {{-- ========== MAIN CONTENT ========== --}}
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
 
             {{-- Top Navbar --}}
             <header class="bg-white shadow-sm z-20 shrink-0">
@@ -355,18 +370,12 @@
     <script>
         // Sidebar toggle
         function openSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.remove('-translate-x-full');
-            sidebar.classList.add('translate-x-0');
-            overlay.classList.remove('hidden');
+            document.getElementById('sidebar').classList.add('sidebar-open');
+            document.getElementById('sidebarOverlay').classList.remove('hidden');
         }
         function closeSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.add('-translate-x-full');
-            sidebar.classList.remove('translate-x-0');
-            overlay.classList.add('hidden');
+            document.getElementById('sidebar').classList.remove('sidebar-open');
+            document.getElementById('sidebarOverlay').classList.add('hidden');
         }
 
         // Notification dropdown
